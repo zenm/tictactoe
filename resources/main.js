@@ -34,21 +34,22 @@ function determineNumberOfPlayers(nodeInfo){
   } else {
     isVsComputer = false;
   }
-  chooseWhoGoesFirst();
+  // chooseWhoGoesFirst();
+  putComputersMove(getStateOfBoard());
 }
 
 // used to determine player piece and assign the other opponent the opposite piece
 function getPlayerPiece(nodeInfo) {
-  playerPiece = nodeInfo.children[0].textContent;
-  playerOnePiece = playerPiece;
+  currentPlayer = nodeInfo.children[0].textContent;
+  playerOnePiece = currentPlayer;
   playerTwoPiece = playerOnePiece == "X" ? "O" : "X";
 }
 
-var playerPiece;
+var currentPlayer;
 var playerOnePiece;
 var playerTwoPiece;
 var moveCount = 0;
-var wasLastMoveHuman = true;
+// var wasLastMoveHuman;
 var lastMove;
 var isVsComputer;
 
@@ -67,14 +68,16 @@ var positionsOnBoard = document.getElementsByClassName('one-position');
 function putPlayerPieceOnBoard(nodeInfo) {
   var selectedPiece = nodeInfo.children[0].textContent;
   if (selectedPiece == ""){
-    nodeInfo.children[0].textContent = playerPiece;
+    nodeInfo.children[0].textContent = currentPlayer;
     moveCount++;
-    wasLastMoveHuman = true;
-    lastMove = playerPiece;
+    // wasLastMoveHuman = true;
+    lastMove = currentPlayer;
     changeCurrentPlayerTurn(lastMove);
   }
   needToResetBoard();
-  chooseWhoGoesFirst();
+  // chooseWhoGoesFirst();
+  putComputersMove(getStateOfBoard());
+
 }
 
 // used to randomly choose who goes first
@@ -82,19 +85,23 @@ function chooseWhoGoesFirst () {
   if (moveCount == 0){
     var whoseFirst = Math.round(Math.random());
     if (whoseFirst == 0){
-      playerPiece = playerOnePiece;
-    } else{
-      playerPiece = playerTwoPiece;
+      currentPlayer = playerOnePiece;
+    } else {
+      currentPlayer = playerTwoPiece;
     }
-    console.log(playerPiece + " is up first");
+    console.log(currentPlayer + " is up first");
+    return currentPlayer;
   }
 }
 
 // used to switch which player is up to turn
 function changeCurrentPlayerTurn (stringLastMove) {
-  playerPiece = playerPiece == "X"? "O" : "X";
-  console.log(playerPiece + " is up.");
+  if (isVsComputer == false ) {
+    currentPlayer = currentPlayer == "X"? "O" : "X";
+    console.log(currentPlayer + " is up.");
+  }
 }
+
 // used to check to see if we need to reset the board.
 function needToResetBoard() {
   // if there are no blanks
@@ -113,21 +120,96 @@ function getStateOfBoard() {
   return boardState;
 }
 
-function computersMove(arrayOfMoves){
-  if (isVsComputer) {
-    console.log(arrayOfMoves);
+function putComputersMove(){
+  // decides if it's computers turn
+  if (isVsComputer && playerTwoPiece == currentPlayer ) {
+    // get the current state of board.
+    getStateOfBoard();
     sayHello();
   }
 }
 
+function putComputerMoveOnBoard(place, playerTwoPiece) {
+  //AI happens to then put place 0 - 8 and player two piece on board.
+  return positionsOnBoard[place].textContent = playerTwoPiece;
+}
+
+
+// used to decide MiniMax algorithm
+function miniMaxCalculation () {
+
+}
+
+
+
+function checkIfBoardWins(arrayOfMoves){
+  // convert Xs and Os to compare against winning state.
+  var movePieces = ["X", "O"];
+  for (var i = 0; i < movePieces.length; i++) {
+    var xOrO = movePieces[i];
+
+    if
+      ((arrayOfMoves[0] == xOrO  &&
+      arrayOfMoves[1] == xOrO  &&
+      arrayOfMoves[2] == xOrO) ||
+      (arrayOfMoves[3] == xOrO  &&
+      arrayOfMoves[4] == xOrO  &&
+      arrayOfMoves[5] == xOrO) ||
+      (arrayOfMoves[6] == xOrO  &&
+      arrayOfMoves[7] == xOrO  &&
+      arrayOfMoves[8] == xOrO) ) {
+      return xOrO + " wins with 3 across";
+    }
+    //check cols for 3
+    else if
+    ((arrayOfMoves[0] == xOrO  &&
+    arrayOfMoves[3] == xOrO  &&
+    arrayOfMoves[6] == xOrO) ||
+    (arrayOfMoves[1] == xOrO  &&
+    arrayOfMoves[4] == xOrO  &&
+    arrayOfMoves[7] == xOrO) ||
+    (arrayOfMoves[2] == xOrO  &&
+    arrayOfMoves[5] == xOrO  &&
+    arrayOfMoves[8] == xOrO) ) {
+      return xOrO + " wins three down";
+    }
+    //check diagnoals
+    else if
+    ((arrayOfMoves[0] == xOrO  &&
+    arrayOfMoves[4] == xOrO  &&
+    arrayOfMoves[8] == xOrO) ||
+    (arrayOfMoves[2] == xOrO  &&
+    arrayOfMoves[4] == xOrO  &&
+    arrayOfMoves[6] == xOrO) ) {
+      return xOrO + " wins diagonally");
+    }
+  }
+  if (getStateOfBoard().indexOf("") == -1){
+    console.log("It's a draw");
+    return "It's a draw."
+  }
+}
+
+
+checkIfBoardWins(["X", "X", "X", "", "O", "O", "", "", ""]); //"Xwins with 3 across"
+checkIfBoardWins(["X", "O", "O", "", "", "O", "X", "X", "X"]); //"Xwins with 3 across"
+checkIfBoardWins(["O", "O", "O", "", "", "O", "X", "X", "X"]); //"Xwins with 3 across"
+
+checkIfBoardWins(["O", "", "O", "X", "X", "O", "X", "", "O"]); // "O Yea Buddy - three down"
+checkIfBoardWins(["O", "X", "", "O", "X", "", "O", "", ""]); // "O Yea Buddy - three down"
+
+
+checkIfBoardWins(["O", "X", "", "", "O", "X", "", "", "O"]); //"Yea Buddy - diagonals"
+
+checkIfBoardWins(["X", "O", "X", "O", "O", "X", "O", "X", "O"]); //undefined
+
+//
 // resets the boardState
 function resetBoard() {
   for (var i = 0; i < positionsOnBoard.length; i++) {
     positionsOnBoard[i].children[0].textContent = "";
   }
 }
-
-
 
 
 function sayHello(){
