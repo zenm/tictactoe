@@ -1,11 +1,3 @@
-// I can choose x or o
-
-// the game will reset after the game is over
-
-// I can play a tic tac toe game with the computer.
-function didWin(array){
-
-}
 var pickPiece  = document.getElementsByClassName('pick-piece');
 
 // used to add eventlisteners to picking either x or o.
@@ -49,7 +41,6 @@ var currentPlayer;
 var playerOnePiece;
 var playerTwoPiece;
 var moveCount = 0;
-// var wasLastMoveHuman;
 var lastMove;
 var isVsComputer;
 
@@ -75,9 +66,7 @@ function putPlayerPieceOnBoard(nodeInfo) {
     changeCurrentPlayerTurn(lastMove);
     putComputerMoveOnBoard(randomPlacementOnBoard(getStateOfBoard()), playerTwoPiece);
   }
-  needToResetBoard();
-  chooseWhoGoesFirst();
-
+  checkIfBoardWins(getStateOfBoard());
 }
 
 // used to randomly choose who goes first
@@ -102,14 +91,21 @@ function changeCurrentPlayerTurn (stringLastMove) {
   }
 }
 
-// used to check to see if we need to reset the board.
-function needToResetBoard() {
-  // if there are no blanks
-  if (getStateOfBoard().indexOf("") == -1){
-    resetBoard();
-    moveCount = 0;
+// show who's up
+var whosUp = document.getElementsByClassName('show-turn');
+
+function showWhoIsUp(){
+  // for (var i = 0; i < whosUp.length; i++) {
+    if(currentPlayer == playerOnePiece ){
+      console.log("player1");
+      // example below.
+      document.getElementsByClassName("player1-goes")[0].innerHTML = "<span>Yoooo</span>";
+    // }
+  } else {
+    console.log("player2");
   }
 }
+
 
 // AI section ----------------------------------------
 function getStateOfBoard() {
@@ -127,6 +123,7 @@ function putComputerMoveOnBoard(place, playerTwoPiece) {
     lastMove = currentPlayer;
     changeCurrentPlayerTurn(lastMove);
   };
+  checkIfBoardWins(getStateOfBoard());
 }
 
 function randomPlacementOnBoard (arrayOfBoardState){
@@ -151,53 +148,49 @@ function checkIfBoardWins(arrayOfMoves){
   var movePieces = ["X", "O"];
   for (var i = 0; i < movePieces.length; i++) {
     var xOrO = movePieces[i];
-
     if
-      ((arrayOfMoves[0] == xOrO  &&
+    ((arrayOfMoves[0] == xOrO  &&
       arrayOfMoves[1] == xOrO  &&
       arrayOfMoves[2] == xOrO) ||
-      (arrayOfMoves[3] == xOrO  &&
+    ( arrayOfMoves[3] == xOrO  &&
       arrayOfMoves[4] == xOrO  &&
       arrayOfMoves[5] == xOrO) ||
-      (arrayOfMoves[6] == xOrO  &&
+    ( arrayOfMoves[6] == xOrO  &&
       arrayOfMoves[7] == xOrO  &&
       arrayOfMoves[8] == xOrO) ) {
       alert(xOrO + " wins with 3 across");
-      needToResetBoard();
+      resetBoard();
       return xOrO + " wins with 3 across";
-    }
-    //check cols for 3
+          }
     else if
     ((arrayOfMoves[0] == xOrO  &&
-    arrayOfMoves[3] == xOrO  &&
-    arrayOfMoves[6] == xOrO) ||
-    (arrayOfMoves[1] == xOrO  &&
-    arrayOfMoves[4] == xOrO  &&
-    arrayOfMoves[7] == xOrO) ||
-    (arrayOfMoves[2] == xOrO  &&
-    arrayOfMoves[5] == xOrO  &&
-    arrayOfMoves[8] == xOrO) ) {
+      arrayOfMoves[3] == xOrO  &&
+      arrayOfMoves[6] == xOrO) ||
+    ( arrayOfMoves[1] == xOrO  &&
+      arrayOfMoves[4] == xOrO  &&
+      arrayOfMoves[7] == xOrO) ||
+    ( arrayOfMoves[2] == xOrO  &&
+      arrayOfMoves[5] == xOrO  &&
+      arrayOfMoves[8] == xOrO) ) {
       alert(xOrO + " wins three down");
-      needToResetBoard();
+      resetBoard();
       return xOrO + " wins three down";
-
     }
-    //check diagnoals
     else if
     ((arrayOfMoves[0] == xOrO  &&
-    arrayOfMoves[4] == xOrO  &&
-    arrayOfMoves[8] == xOrO) ||
-    (arrayOfMoves[2] == xOrO  &&
-    arrayOfMoves[4] == xOrO  &&
-    arrayOfMoves[6] == xOrO) ) {
-      alert( xOrO + " wins diagonally");
-      needToResetBoard();
+      arrayOfMoves[4] == xOrO  &&
+      arrayOfMoves[8] == xOrO) ||
+    ( arrayOfMoves[2] == xOrO  &&
+      arrayOfMoves[4] == xOrO  &&
+      arrayOfMoves[6] == xOrO) ) {
+      alert(xOrO + " wins diagonally");
+      resetBoard();
       return xOrO + " wins diagonally";
     }
   }
-  if (getStateOfBoard().indexOf("") == -1){
+  if (getStateOfBoard().indexOf("") == -1) {
     alert("It's a draw");
-    needToResetBoard();
+    resetBoard();
     return "It's a draw."
   }
 }
@@ -207,7 +200,21 @@ function resetBoard() {
   for (var i = 0; i < positionsOnBoard.length; i++) {
     positionsOnBoard[i].children[0].textContent = "";
   }
+  moveCount = 0;
+  chooseWhoGoesFirst();
+  putComputerMoveOnBoard(randomPlacementOnBoard(getStateOfBoard()), playerTwoPiece);
 }
+
+// used to check to see if we need to reset the board.
+function needToResetBoard() {
+  // if there are no blanks
+  if (getStateOfBoard().indexOf("") == -1) {
+    resetBoard();
+    moveCount = 0;
+    chooseWhoGoesFirst();
+  }
+}
+
 
 function sayHello(){
   console.log("Halllooo");
