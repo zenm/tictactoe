@@ -95,14 +95,13 @@ function changeCurrentPlayerTurn (stringLastMove) {
 var whosUp = document.getElementsByClassName('show-turn');
 
 function showWhoIsUp(){
-  // for (var i = 0; i < whosUp.length; i++) {
     if(currentPlayer == playerOnePiece ){
       console.log("player1");
-      // example below.
-      document.getElementsByClassName("player1-goes")[0].innerHTML = "<span>Yoooo</span>";
-    // }
+      whosUp[0].innerHTML = "<span>Player 1's turn</span>";
+      whosUp[1].innerHTML = "";
   } else {
-    console.log("player2");
+    whosUp[0].innerHTML = "";
+    whosUp[1].innerHTML = "<span>Player 2's turn</span>";
   }
 }
 
@@ -142,7 +141,9 @@ function randomPlacementOnBoard (arrayOfBoardState){
 function testIfOpenPosition (place) {
   return  positionsOnBoard[place].children[0].textContent == "";
 }
+// end AI section
 
+// used to check if board wins.
 function checkIfBoardWins(arrayOfMoves){
   // convert Xs and Os to compare against winning state.
   var movePieces = ["X", "O"];
@@ -194,6 +195,9 @@ function checkIfBoardWins(arrayOfMoves){
     return "It's a draw."
   }
 }
+
+// show results
+
 
 // resets the boardState
 function resetBoard() {
