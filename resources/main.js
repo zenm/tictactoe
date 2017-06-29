@@ -34,8 +34,8 @@ function determineNumberOfPlayers(nodeInfo){
   } else {
     isVsComputer = false;
   }
-  // chooseWhoGoesFirst();
-  putComputersMove(getStateOfBoard());
+  chooseWhoGoesFirst();
+  putComputerMoveOnBoard(randomPlacementOnBoard(), playerTwoPiece);
 }
 
 // used to determine player piece and assign the other opponent the opposite piece
@@ -75,8 +75,9 @@ function putPlayerPieceOnBoard(nodeInfo) {
     changeCurrentPlayerTurn(lastMove);
   }
   needToResetBoard();
-  // chooseWhoGoesFirst();
-  putComputersMove(getStateOfBoard());
+  chooseWhoGoesFirst();
+
+  putComputerMoveOnBoard(randomPlacementOnBoard(8,0), playerTwoPiece);
 
 }
 
@@ -96,8 +97,8 @@ function chooseWhoGoesFirst () {
 
 // used to switch which player is up to turn
 function changeCurrentPlayerTurn (stringLastMove) {
-  if (isVsComputer == false ) {
-    currentPlayer = currentPlayer == "X"? "O" : "X";
+  if (true) {
+    currentPlayer = stringLastMove == "X"? "O" : "X";
     console.log(currentPlayer + " is up.");
   }
 }
@@ -120,26 +121,24 @@ function getStateOfBoard() {
   return boardState;
 }
 
-function putComputersMove(){
-  // decides if it's computers turn
-  if (isVsComputer && playerTwoPiece == currentPlayer ) {
-    // get the current state of board.
-    getStateOfBoard();
-    sayHello();
-  }
-}
 
 function putComputerMoveOnBoard(place, playerTwoPiece) {
-  //AI happens to then put place 0 - 8 and player two piece on board.
-  return positionsOnBoard[place].textContent = playerTwoPiece;
+  if (isVsComputer && playerTwoPiece == currentPlayer ){
+    //AI happens to then put place 0 - 8 and player two piece on board.
+    return positionsOnBoard[place].children[0].textContent = playerTwoPiece;
+  };
 }
 
-
-// used to decide MiniMax algorithm
-function miniMaxCalculation () {
-
+function randomPlacementOnBoard (max, min){
+  var randomNumberBetween = Math.floor(Math.random() * (max - min + 1) + min);
+  while (testIfOpenPosition(randomNumberBetween) != true) {
+    randomNumberBetween =  Math.floor(Math.random() * (max - min + 1) + min);
+  } return randomNumberBetween;
 }
 
+function testIfOpenPosition (place) {
+  return  positionsOnBoard[place].children[0].textContent == "";
+}
 
 
 function checkIfBoardWins(arrayOfMoves){
@@ -158,6 +157,8 @@ function checkIfBoardWins(arrayOfMoves){
       (arrayOfMoves[6] == xOrO  &&
       arrayOfMoves[7] == xOrO  &&
       arrayOfMoves[8] == xOrO) ) {
+      alert(xOrO + " wins with 3 across");
+      needToResetBoard();
       return xOrO + " wins with 3 across";
     }
     //check cols for 3
@@ -171,7 +172,10 @@ function checkIfBoardWins(arrayOfMoves){
     (arrayOfMoves[2] == xOrO  &&
     arrayOfMoves[5] == xOrO  &&
     arrayOfMoves[8] == xOrO) ) {
+      alert(xOrO + " wins three down");
+      needToResetBoard();
       return xOrO + " wins three down";
+
     }
     //check diagnoals
     else if
@@ -181,36 +185,25 @@ function checkIfBoardWins(arrayOfMoves){
     (arrayOfMoves[2] == xOrO  &&
     arrayOfMoves[4] == xOrO  &&
     arrayOfMoves[6] == xOrO) ) {
-      return xOrO + " wins diagonally");
+      alert( xOrO + " wins diagonally");
+      needToResetBoard();
+      return xOrO + " wins diagonally";
     }
   }
   if (getStateOfBoard().indexOf("") == -1){
-    console.log("It's a draw");
+    alert("It's a draw");
+    needToResetBoard();
     return "It's a draw."
   }
 }
 
 
-checkIfBoardWins(["X", "X", "X", "", "O", "O", "", "", ""]); //"Xwins with 3 across"
-checkIfBoardWins(["X", "O", "O", "", "", "O", "X", "X", "X"]); //"Xwins with 3 across"
-checkIfBoardWins(["O", "O", "O", "", "", "O", "X", "X", "X"]); //"Xwins with 3 across"
-
-checkIfBoardWins(["O", "", "O", "X", "X", "O", "X", "", "O"]); // "O Yea Buddy - three down"
-checkIfBoardWins(["O", "X", "", "O", "X", "", "O", "", ""]); // "O Yea Buddy - three down"
-
-
-checkIfBoardWins(["O", "X", "", "", "O", "X", "", "", "O"]); //"Yea Buddy - diagonals"
-
-checkIfBoardWins(["X", "O", "X", "O", "O", "X", "O", "X", "O"]); //undefined
-
-//
 // resets the boardState
 function resetBoard() {
   for (var i = 0; i < positionsOnBoard.length; i++) {
     positionsOnBoard[i].children[0].textContent = "";
   }
 }
-
 
 function sayHello(){
   console.log("Halllooo");
