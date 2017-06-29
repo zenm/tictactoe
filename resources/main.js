@@ -23,19 +23,19 @@ var pickNumberPlayers = document.getElementsByClassName('pick-player');
 (function (){
   for (var i = 0; i < pickNumberPlayers.length; i++) {
     pickNumberPlayers[i].addEventListener('click', function() {
-      determineNumberOfPlayers(this);
+      determineNumberOfPlayers(this.id);
     });
   };
 })();
 
 function determineNumberOfPlayers(nodeInfo){
-  if (nodeInfo.children[0].textContent == "1 player") {
+  if (nodeInfo == "one-player") {
     isVsComputer = true;
-  } else {
+  } else if (nodeInfo == "two-player") {
     isVsComputer = false;
   }
   chooseWhoGoesFirst();
-  putComputerMoveOnBoard(randomPlacementOnBoard(), playerTwoPiece);
+  putComputerMoveOnBoard(randomPlacementOnBoard(getStateOfBoard()), playerTwoPiece);
 }
 
 // used to determine player piece and assign the other opponent the opposite piece
@@ -73,11 +73,10 @@ function putPlayerPieceOnBoard(nodeInfo) {
     // wasLastMoveHuman = true;
     lastMove = currentPlayer;
     changeCurrentPlayerTurn(lastMove);
+    putComputerMoveOnBoard(randomPlacementOnBoard(getStateOfBoard()), playerTwoPiece);
   }
   needToResetBoard();
   chooseWhoGoesFirst();
-
-  putComputerMoveOnBoard(randomPlacementOnBoard(8,0), playerTwoPiece);
 
 }
 
@@ -121,25 +120,31 @@ function getStateOfBoard() {
   return boardState;
 }
 
-
 function putComputerMoveOnBoard(place, playerTwoPiece) {
   if (isVsComputer && playerTwoPiece == currentPlayer ){
-    //AI happens to then put place 0 - 8 and player two piece on board.
-    return positionsOnBoard[place].children[0].textContent = playerTwoPiece;
+    //AI puts place 0 - 8 at random and player two piece on board.
+    positionsOnBoard[place].children[0].textContent = playerTwoPiece;
+    lastMove = currentPlayer;
+    changeCurrentPlayerTurn(lastMove);
   };
 }
 
-function randomPlacementOnBoard (max, min){
-  var randomNumberBetween = Math.floor(Math.random() * (max - min + 1) + min);
-  while (testIfOpenPosition(randomNumberBetween) != true) {
-    randomNumberBetween =  Math.floor(Math.random() * (max - min + 1) + min);
-  } return randomNumberBetween;
+function randomPlacementOnBoard (arrayOfBoardState){
+  var positionOfBlankSpaces = [];
+  for (var i = 0; i < arrayOfBoardState.length; i++) {
+    if (arrayOfBoardState[i] == "") {
+      positionOfBlankSpaces.push(i);
+    }
+  }
+  var minIndexBlankSpaces = 0;
+  var maxIndexBlankSpaces = positionOfBlankSpaces.length - 1;
+  var randomOpenSpace = positionOfBlankSpaces[Math.floor(Math.random() * (maxIndexBlankSpaces - minIndexBlankSpaces + 1) + minIndexBlankSpaces)];
+  return randomOpenSpace;
 }
 
 function testIfOpenPosition (place) {
   return  positionsOnBoard[place].children[0].textContent == "";
 }
-
 
 function checkIfBoardWins(arrayOfMoves){
   // convert Xs and Os to compare against winning state.
@@ -196,7 +201,6 @@ function checkIfBoardWins(arrayOfMoves){
     return "It's a draw."
   }
 }
-
 
 // resets the boardState
 function resetBoard() {
