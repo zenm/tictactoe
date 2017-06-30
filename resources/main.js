@@ -20,7 +20,7 @@ var pickNumberPlayers = document.getElementsByClassName('pick-player');
   };
 })();
 
-function determineNumberOfPlayers(nodeInfo){
+function determineNumberOfPlayers(nodeInfo) {
   if (nodeInfo == "one-player") {
     isVsComputer = true;
   } else if (nodeInfo == "two-player") {
@@ -48,7 +48,7 @@ var positionsOnBoard = document.getElementsByClassName('one-position');
 
 // used to add eventlisteners to board pieces
 (function() {
-  for (var i = 0; i < positionsOnBoard.length; i++){
+  for (var i = 0; i < positionsOnBoard.length; i++) {
     positionsOnBoard[i].addEventListener('click', function() {
       putPlayerPieceOnBoard(this);
     });
@@ -79,6 +79,7 @@ function chooseWhoGoesFirst () {
       currentPlayer = playerTwoPiece;
     }
     console.log(currentPlayer + " is up first");
+    showWhoIsUp();
     return currentPlayer;
   }
 }
@@ -88,15 +89,15 @@ function changeCurrentPlayerTurn (stringLastMove) {
   if (true) {
     currentPlayer = stringLastMove == "X"? "O" : "X";
     console.log(currentPlayer + " is up.");
+    showWhoIsUp();
   }
 }
 
 // show who's up
 var whosUp = document.getElementsByClassName('show-turn');
 
-function showWhoIsUp(){
-    if(currentPlayer == playerOnePiece ){
-      console.log("player1");
+function showWhoIsUp() {
+    if(currentPlayer == playerOnePiece ) {
       whosUp[0].innerHTML = "<span>Player 1's turn</span>";
       whosUp[1].innerHTML = "";
   } else {
@@ -104,7 +105,6 @@ function showWhoIsUp(){
     whosUp[1].innerHTML = "<span>Player 2's turn</span>";
   }
 }
-
 
 // AI section ----------------------------------------
 function getStateOfBoard() {
@@ -114,7 +114,7 @@ function getStateOfBoard() {
   }
   return boardState;
 }
-
+// used to put a random piece on the board
 function putComputerMoveOnBoard(place, playerTwoPiece) {
   if (isVsComputer && playerTwoPiece == currentPlayer ){
     //AI puts place 0 - 8 at random and player two piece on board.
@@ -125,6 +125,7 @@ function putComputerMoveOnBoard(place, playerTwoPiece) {
   checkIfBoardWins(getStateOfBoard());
 }
 
+// used to collect the position of the blank pieces on the board, then to choose a random one.
 function randomPlacementOnBoard (arrayOfBoardState){
   var positionOfBlankSpaces = [];
   for (var i = 0; i < arrayOfBoardState.length; i++) {
@@ -141,11 +142,11 @@ function randomPlacementOnBoard (arrayOfBoardState){
 function testIfOpenPosition (place) {
   return  positionsOnBoard[place].children[0].textContent == "";
 }
-// end AI section
+// end AI section ------------------
 
 // used to check if board wins.
 function checkIfBoardWins(arrayOfMoves){
-  // convert Xs and Os to compare against winning state.
+  var resultMessage = "";
   var movePieces = ["X", "O"];
   for (var i = 0; i < movePieces.length; i++) {
     var xOrO = movePieces[i];
@@ -159,9 +160,8 @@ function checkIfBoardWins(arrayOfMoves){
     ( arrayOfMoves[6] == xOrO  &&
       arrayOfMoves[7] == xOrO  &&
       arrayOfMoves[8] == xOrO) ) {
-      alert(xOrO + " wins with 3 across");
+      resultMessage = xOrO + " wins with 3 across";
       resetBoard();
-      return xOrO + " wins with 3 across";
           }
     else if
     ((arrayOfMoves[0] == xOrO  &&
@@ -173,9 +173,8 @@ function checkIfBoardWins(arrayOfMoves){
     ( arrayOfMoves[2] == xOrO  &&
       arrayOfMoves[5] == xOrO  &&
       arrayOfMoves[8] == xOrO) ) {
-      alert(xOrO + " wins three down");
+      resultMessage = xOrO + " wins three down";
       resetBoard();
-      return xOrO + " wins three down";
     }
     else if
     ((arrayOfMoves[0] == xOrO  &&
@@ -184,20 +183,22 @@ function checkIfBoardWins(arrayOfMoves){
     ( arrayOfMoves[2] == xOrO  &&
       arrayOfMoves[4] == xOrO  &&
       arrayOfMoves[6] == xOrO) ) {
-      alert(xOrO + " wins diagonally");
+      resultMessage = xOrO + " wins diagonally";
       resetBoard();
-      return xOrO + " wins diagonally";
     }
   }
   if (getStateOfBoard().indexOf("") == -1) {
-    alert("It's a draw");
+    resultMessage = "It's a draw";
     resetBoard();
-    return "It's a draw."
   }
+  showResults(resultMessage);
 }
 
-// show results
-
+// show results of who won
+var resultsSection = document.getElementById('who-won');
+function showResults(stringOfResult) {
+  resultsSection.insertAdjacentHTML('afterend', stringOfResult)
+}
 
 // resets the boardState
 function resetBoard() {
@@ -208,17 +209,6 @@ function resetBoard() {
   chooseWhoGoesFirst();
   putComputerMoveOnBoard(randomPlacementOnBoard(getStateOfBoard()), playerTwoPiece);
 }
-
-// used to check to see if we need to reset the board.
-function needToResetBoard() {
-  // if there are no blanks
-  if (getStateOfBoard().indexOf("") == -1) {
-    resetBoard();
-    moveCount = 0;
-    chooseWhoGoesFirst();
-  }
-}
-
 
 function sayHello(){
   console.log("Halllooo");
