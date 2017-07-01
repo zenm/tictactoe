@@ -5,15 +5,16 @@
   <title>tictactoe</title>
   <link rel="stylesheet" href="./resources/styles/reset.css">
   <link rel="stylesheet" href="./resources/styles/master.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
   <div class="entire-app">
     <div id="settings" class="piece-player-section">
       <div class="x-o-pick section">
         <div class="intro">
-          <h2>Pick X or O?</h2>
+          <h2>Select X or O</h2>
         </div>
-        <div class="pick">
+        <div class="pick pick-pieces">
           <div id="pick-x" class="pick-piece" >
             <span>X</span>
           </div>
@@ -24,22 +25,21 @@
       </div>
       <div class="number-players section">
         <div class="intro">
-          <h2>Number of players</h2>
+          <h2>Select players</h2>
         </div>
-        <div class="pick">
+        <div class="pick pick-players">
           <div id="one-player" class="pick-1 pick-player">
             <span>1 player</span>
           </div>
-          <div  id="two-players" class="pick-2 pick-player">
+          <div id="two-players" class="pick-2 pick-player">
             <span>2 players</span>
           </div>
-          <div class="go-back-next-next">
+          <div class="go-back-next">
             <button id="next-button" type="button" name="Next"><span>Next</span></button>
           </div>
         </div>
       </div>
     </div>
-
     <div id="board" class="play-area">
       <div class="board-section">
         <div class="who-goes-first">
@@ -57,54 +57,55 @@
           </div>
         </div> -->
         <div class="positions">
-          <div class="row top">
+          <div id="zero" class="row top">
             <div class="one-position">
               <span></span>
             </div>
-            <div class="one-position">
+            <div id="one" class="one-position">
               <span></span>
             </div>
-            <div class="one-position">
+            <div id="two"class="one-position">
               <span></span>
             </div>
           </div>
         </div>
         <div class="positions">
           <div class="row middle">
-            <div class="one-position">
+            <div id="three" class="one-position">
               <span></span>
             </div>
-            <div class="one-position">
+            <div id="four" class="one-position">
               <span></span>
             </div>
-            <div class="one-position">
+            <div id="five" class="one-position">
               <span></span>
             </div>
           </div>
         </div>
         <div class="positions">
           <div class="row bottom">
-            <div class="one-position">
+            <div id="six"class="one-position">
               <span></span>
             </div>
-            <div class="one-position">
+            <div id="seven" class="one-position">
               <span></span>
             </div>
-            <div class="one-position">
+            <div id="eight" class="one-position">
               <span></span>
             </div>
           </div>
         </div>
-      </div>
-        <div class="go-back-next">
-          <button id="back" type="button" name="back"><span>Go Back</span></button>
+      </div> <!-- end board section -->
+      <div class="results-section">
+        <div class="result-of-game">
+          <h2 id="who-won"></h2>
         </div>
-    </div>
-    <div class="results-section">
-      <div class="result-of-game">
-        <h2 id="who-won"></h2>
+      </div>
+      <div class="go-back-next">
+        <button id="back" type="button" name="back"><span>Go Back</span></button>
       </div>
     </div>
+
   </div>
   <footer>
     <span>A <a href="https://www.freecodecamp.com/challenges/build-a-tic-tac-toe-game" target="_blank">freeCodeCamp project</a> by Lino.</span>

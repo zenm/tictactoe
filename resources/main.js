@@ -5,6 +5,7 @@ var pickPiece  = document.getElementsByClassName('pick-piece');
   for (var i = 0; i < pickPiece.length; i++) {
     pickPiece[i].addEventListener('click', function(){
       getPlayerPiece(this);
+      addChoiceStyle(this.id);
     });
   };
 })();
@@ -16,6 +17,7 @@ var pickNumberPlayers = document.getElementsByClassName('pick-player');
   for (var i = 0; i < pickNumberPlayers.length; i++) {
     pickNumberPlayers[i].addEventListener('click', function() {
       determineNumberOfPlayers(this.id);
+      addChoiceStyle(this.id);
     });
   };
 })();
@@ -26,20 +28,27 @@ function determineNumberOfPlayers(nodeInfo) {
   } else if (nodeInfo == "two-players") {
     isVsComputer = false;
   }
+  if ((currentPlayer == "X" || currentPlayer == "O") &&
+      (isVsComputer == true || isVsComputer == false)){
+    nextButton.disabled = false;
+  }
 }
 
 // used to add listeners to next button;
 var nextButton = document.getElementById('next-button');
+nextButton.setAttribute("disabled", "");
 (function() {
   nextButton.addEventListener('click', function() {
     if ((currentPlayer == "X" || currentPlayer == "O") &&
         (isVsComputer == true || isVsComputer == false)){
+      nextButton.disabled = false;
       console.log("show board");
       hideSettings();
       showBoard();
       chooseWhoGoesFirst();
       putComputerMoveOnBoard(randomPlacementOnBoard(getStateOfBoard()), playerTwoPiece);
     } else {
+      nextButton.disabled = true;
       console.log("would need to disable next button and hide board");
     }
   });
@@ -65,6 +74,33 @@ function showSettings() {
   settingsArea.classList.remove("hide-area");
 }
 
+// add styles to chosen piece
+function addChoiceStyle (selectorId){
+  var pickX = document.getElementById('pick-x');
+  var pickO = document.getElementById('pick-o');
+  var oneP = document.getElementById('one-player');
+  var twoP = document.getElementById('two-players');
+
+  if (selectorId == "pick-x") {
+    pickO.classList.remove('choosen-piece');
+    pickX.classList.remove('choosen-piece');
+    pickX.classList.add ("choosen-piece");
+  } else if (selectorId == "pick-o") {
+    pickX.classList.remove('choosen-piece');
+    pickO.classList.remove('choosen-piece');
+    pickO.classList.add('choosen-piece');
+  }
+
+  if (selectorId == "one-player") {
+    oneP.classList.remove('choosen-piece');
+    twoP.classList.remove('choosen-piece');
+    oneP.classList.add('choosen-piece');
+  } else if (selectorId == "two-players") {
+    twoP.classList.remove('choosen-piece');
+    oneP.classList.remove('choosen-piece');
+    twoP.classList.add('choosen-piece');
+  }
+}
 
 
 // used to determine player piece and assign the other opponent the opposite piece
@@ -72,6 +108,11 @@ function getPlayerPiece(nodeInfo) {
   currentPlayer = nodeInfo.children[0].textContent;
   playerOnePiece = currentPlayer;
   playerTwoPiece = playerOnePiece == "X" ? "O" : "X";
+
+  if ((currentPlayer == "X" || currentPlayer == "O") &&
+      (isVsComputer == true || isVsComputer == false)){
+    nextButton.disabled = false;
+  }
 }
 
 var currentPlayer;
