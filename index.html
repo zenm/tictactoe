@@ -8,36 +8,39 @@
 </head>
 <body>
   <div class="entire-app">
-    <div class="x-o-pick section">
-      <div class="intro">
-        <h2>X or O?</h2>
-      </div>
-      <div class="pick">
-        <div id="pick-x" class="pick-piece" >
-          <span>X</span>
+    <div id="settings" class="piece-player-section">
+      <div class="x-o-pick section">
+        <div class="intro">
+          <h2>Pick X or O?</h2>
         </div>
-        <div id="pick-o" class="pick-piece">
-          <span>O</span>
+        <div class="pick">
+          <div id="pick-x" class="pick-piece" >
+            <span>X</span>
+          </div>
+          <div id="pick-o" class="pick-piece">
+            <span>O</span>
+          </div>
+        </div>
+      </div>
+      <div class="number-players section">
+        <div class="intro">
+          <h2>Number of players</h2>
+        </div>
+        <div class="pick">
+          <div id="one-player" class="pick-1 pick-player">
+            <span>1 player</span>
+          </div>
+          <div  id="two-players" class="pick-2 pick-player">
+            <span>2 players</span>
+          </div>
+          <div class="go-back-next-next">
+            <button id="next-button" type="button" name="Next"><span>Next</span></button>
+          </div>
         </div>
       </div>
     </div>
-    <div class="number-players section">
-      <div class="intro">
-        <h2>Number of players</h2>
-      </div>
-      <div class="pick">
-        <div id="one-player" class="pick-1 pick-player">
-          <span>1 player</span>
-        </div>
-        <div  id="two-players" class="pick-2 pick-player">
-          <span>2 players</span>
-        </div>
-        <div class="go-back-next-next">
-          <button type="button" name="Next"><span>Next</span></button>
-        </div>
-      </div>
-    </div>
-    <div class="play-area">
+
+    <div id="board" class="play-area">
       <div class="board-section">
         <div class="who-goes-first">
           <div class="player1-goes show-turn">
@@ -45,12 +48,14 @@
           <div class="player2-goes show-turn">
           </div>
         </div>
-        <div class="score-board">
-          <div class="player1-score">
+        <!-- <div class="score-board">
+          <div class="score">
+            <h3>Player 1: <span id="player1-score">0</span> </h3>
           </div>
-          <div class="player2-score">
+          <div class="score">
+            <h3>Player 2: <span id="player2-score">0</span></h3>
           </div>
-        </div>
+        </div> -->
         <div class="positions">
           <div class="row top">
             <div class="one-position">
@@ -90,15 +95,14 @@
             </div>
           </div>
         </div>
-        <div class="go-back-next">
-          <button type="button" name="back"><span>Go Back</span></button>
-        </div>
       </div>
+        <div class="go-back-next">
+          <button id="back" type="button" name="back"><span>Go Back</span></button>
+        </div>
     </div>
     <div class="results-section">
       <div class="result-of-game">
-        <h2 id="who-won">ResultOfGame?</h2>
-        <!-- <span ></span> -->
+        <h2 id="who-won"></h2>
       </div>
     </div>
   </div>
