@@ -32,10 +32,9 @@ body {
   line-height: 1;
 }
 
-/**,
-body {
-  border: 1px dashed pink;
-}*/
+.title {
+  display: none;
+}
 
 .intro {
   font-weight: 700;
@@ -93,7 +92,6 @@ body {
   font-size: 2rem;
   padding: 1.25rem 1.75rem;
   width: 100%;
-
 }
 
 .pick-piece,
@@ -102,7 +100,7 @@ body {
 }
 
 /* baord area */
-.who-goes-first{
+.who-goes-first {
   margin: 1rem 0;
 }
 
@@ -141,7 +139,7 @@ body {
   align-items: center;
 }
 
-.one-position span{
+.one-position span {
   font-size: 7.8rem;
 }
 
@@ -163,13 +161,12 @@ body {
   text-align: center;
   margin: 2rem 0 0 0;
 }
-.hide-area{
+.hide-area {
   display: none;
 }
 .show-area {
   display: block;
 }
-
 
 /* footer area */
 footer {
@@ -182,4 +179,206 @@ footer {
 
 footer a:visited  {
   color: #dedede;
+}
+
+/*tablet styles*/
+ /*and (max-device-width : 1024px)*/
+@media only screen and (min-width : 768px) and (max-width : 1024px) {
+  body {
+    font-size: 3rem;
+  }
+
+  .title {
+    display: block;
+    font-weight: 700;
+    font-size: 5rem;
+    position: fixed;
+    top: 0px;
+    text-align: center;
+    position: fixed;
+    width: 100%;
+    z-index: -1;
+  }
+
+  .piece-player-section {
+    z-index: 10;
+    background-color: #fff;
+    margin: 12rem auto;
+    width: 80%;
+    padding: 1rem;
+  }
+
+  .go-back-next button {
+    display: block;
+    font-size: 2rem;
+    padding: 1.25rem 1.75rem;
+    margin: 0 auto;
+    max-width: 12rem;
+  }
+
+  .pick-piece,
+  .pick-player {
+    margin: 1rem 0;
+  }
+
+  /* baord area */
+  .board-section {
+    z-index: 10;
+    margin: 7.5rem 0 3rem 0;
+    background-color: #fff;
+  }
+
+  .who-goes-first{
+    margin: 2rem 0;
+    padding: 2rem 0;
+  }
+
+  .all-positions {
+    display: inline-block;
+    margin: 0 auto;
+    max-width: 32rem;
+  }
+
+  /*top row*/
+  #one,
+  #four,
+  #seven {
+    border-left: .5rem solid #000;
+    border-right: .5rem solid #000;
+  }
+
+  #three,
+  #four,
+  #five,
+  #six,
+  #seven,
+  #eight {
+    border-top: .5rem solid #000;
+  }
+
+  .one-position {
+    height: 10rem;
+    width: 10rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .one-position span {
+    font-size: 9.8rem;
+  }
+
+  .results-section {
+    text-align: center;
+    margin: 1rem;
+    height: 5rem;
+  }
+
+  /* footer area */
+  footer {
+    padding: 3rem 0;
+    font-size: 1.5rem;
+    margin: 5rem 0 0 0;
+  }
+}
+
+/*desktop styles*/
+@media only screen  and (min-width : 1025px) {
+
+  body {
+    font-size: 1.5rem;
+  }
+
+  .title {
+    display: block;
+    font-weight: 700;
+    font-size: 2rem;
+    text-align: center;
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    z-index: -1;
+  }
+
+  .piece-player-section {
+    z-index: 10;
+    background-color: #fff;
+    margin: 3rem auto;
+    max-width: 50rem;
+    padding: 1rem;
+    /*border: .2rem solid #000;*/
+    box-shadow: -1rem 1rem 1rem #ababab;
+  }
+
+  .go-back-next button {
+    display: block;
+    font-size: 2rem;
+    padding: 1.25rem 1.75rem;
+    margin: 0 auto;
+    max-width: 12rem;
+  }
+
+  .pick-piece,
+  .pick-player {
+    margin: 1rem 0;
+  }
+
+  /* baord area */
+  .board-section {
+    z-index: 10;
+    margin: 3rem 0;
+    background-color: #fff;
+  }
+
+  .who-goes-first {
+    margin: 2rem 0;
+  }
+
+  .all-positions {
+    display: inline-block;
+    margin: 0 auto;
+    max-width: 24rem;
+  }
+
+  /*top row*/
+  #one,
+  #four,
+  #seven {
+    border-left: .5rem solid #000;
+    border-right: .5rem solid #000;
+  }
+
+  #three,
+  #four,
+  #five,
+  #six,
+  #seven,
+  #eight {
+    border-top: .5rem solid #000;
+  }
+
+  .one-position {
+    height: 8rem;
+    width: 8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .one-position span {
+    font-size: 9.8rem;
+  }
+
+  .results-section {
+    text-align: center;
+    margin: 1rem;
+    height: 5rem;
+  }
+
+  /* footer area */
+  footer {
+    padding: 2rem 0;
+    font-size: 1rem;
+    margin: 12rem 0 0 0;
+  }
 }
