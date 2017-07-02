@@ -105,8 +105,15 @@ body {
 .who-goes-first{
   margin: 1rem 0;
 }
+
 .row {
   display: flex;
+}
+
+.all-positions {
+  display: inline-block;
+  margin: 0 auto;
+  width: 24rem;
 }
 
 /*top row*/
@@ -125,9 +132,6 @@ body {
 #eight {
   border-top: .2rem solid #000;
 }
-
-
-
 
 .one-position {
   height: 8rem;
