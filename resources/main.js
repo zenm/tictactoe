@@ -303,28 +303,6 @@ var backButton = document.getElementById('back');
   });
 })();
 
-
-
-// increment score for winner
-// var scoreForPlayerOne = document.getElementById('player1-score');
-// var scoreForPlayerTwo = document.getElementById('player2-score');
-// function showScore(booleanResult){
-//   if(booleanResult){
-//     var previousScore;
-//     if (lastMove == playerOnePiece){
-//       previousScore = scoreForPlayerOne.textContent;
-//       previousScore = parseFloat(previousScore);
-//       previousScore = previousScore + 1;
-//       scoreForPlayerOne.textContent = previousScore;
-//     } else {
-//       previousScore = scoreForPlayerTwo.textContent;
-//       previousScore = parseFloat(previousScore);
-//       previousScore = previousScore + 1;
-//       scoreForPlayerTwo.textContent = previousScore;
-//     }
-//   }
-// }
-
 // say hello
 function sayHello(){
   console.log("Halllooo");
